@@ -28,6 +28,7 @@ public final class EventMonitor {
         String zkServers = args[3];
         String duration = args[4];
         String maxRate = args[5];
+        String maxCores = args[6];
 
         System.out.println("Master: " + master);
         System.out.println("Topic: " + topic);
@@ -35,6 +36,7 @@ public final class EventMonitor {
         System.out.println("Zookeeper: " + zkServers);
         System.out.println("Duration: " + duration);
         System.out.println("Max Rate: " + maxRate);
+        System.out.println("Max Cores: " + maxCores);        
 
         Map<String, Integer> topicMap = new HashMap<String, Integer>();
         topicMap.put(topic, Integer.parseInt(partitionCount));
@@ -46,6 +48,7 @@ public final class EventMonitor {
         sparkConf.setSparkHome(System.getenv("SPARK_HOME"));
         sparkConf.setJars(JavaStreamingContext.jarOfClass(EventMonitor.class));
         sparkConf.set("spark.streaming.receiver.maxRate", maxRate);
+        sparkConf.set("spark.cores.max", maxCores);
 
         JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, new Duration(Integer.parseInt(duration)));
 
